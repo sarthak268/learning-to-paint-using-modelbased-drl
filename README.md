@@ -1,1 +1,1 @@
-# Learning to paint using Model-free TD3
+# Learning to paint using Model-based TD3
