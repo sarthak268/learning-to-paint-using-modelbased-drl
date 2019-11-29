@@ -21,8 +21,10 @@ coord = coord.to(device)
 
 criterion = nn.MSELoss()
 
+eps_clip = 0.1
+
 Decoder = FCN()
-Decoder.load_state_dict(torch.load('renderer.pkl'))
+Decoder.load_state_dict(torch.load('../renderer.pkl'))
 
 def decode(x, canvas): # b * (10 + 3)
 	x = x.view(-1, 10 + 3)
@@ -151,8 +153,9 @@ class PPO(object):
 
 		advantage_lst = []
 		advantage = 0.0
-
-		for delta_t in target_q[::-1]:
+		#print (target_q)
+		tq = to_numpy(target_q)
+		for delta_t in tq[::-1]:
 			advantage = self.discount * 0.95 * advantage + delta_t[0]
 			advantage_lst.append([advantage])
 
@@ -161,12 +164,18 @@ class PPO(object):
 		
 		action = self.play(state)
 		pre_q, _ = self.evaluate(state.detach(), action)
-		pi_a = self.action_prob.gather(1, action)
+		pi_a = self.action_prob.gather(1, action.long())
 		ratio = torch.exp(torch.log(pi_a) - torch.log(self.action_prob))
-
+		#print (type(ratio), type(advantage))
+		advantage = advantage.cuda()
+		ratio = ratio.cuda()
 		surr1 = ratio * advantage
-		surr2 = torch.clamp(ratio, 1-eps_clip, 1+eps_clip) * advantage
-		policy_loss = -torch.min(surr1, surr2) + F.smooth_l1_loss(pre_q, td_target.detach())
+		clamped = torch.clamp(ratio, 1-eps_clip, 1+eps_clip)
+		clamped = clamped.cuda()
+		surr2 = clamped * advantage
+		policy_loss = -torch.min(surr1, surr2) + F.smooth_l1_loss(pre_q, target_q.detach())
+		policy_loss = policy_loss.mean().mean()
+		#print (policy_loss)
 		self.actor.zero_grad()
 		policy_loss.backward(retain_graph=True)
 		self.actor_optim.step()
