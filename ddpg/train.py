@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# reference - https://github.com/hzwer/ICCV2019-LearningToPaint
 import cv2
 import random
 import numpy as np
