@@ -1,4 +1,4 @@
-# Learning to paint using Model-based Deep Reinforcement Learning
+# Learning to paint using Model-based DRL
 
 Teach an agent to use a replicate an image by decomposing it to a set of strokes that can be painted on a canvas in some sequence. The agent will learn to paint the next stroke based on the current set of strokes on the canvas and the image being replicated. For this we follow the approach followed in paper Huang <i>et al.</i> alongside some of our own modifications. We aim to design a model-based TD3 approach as well as a model-based PPO approach and compare it to their model-based DDPG for the task of learning to paint.
 <br>
