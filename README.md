@@ -20,4 +20,4 @@ PPO is an efficient version of TRPO, which uses a trust region to figure the dir
 - TD3 log files can be found [here](https://drive.google.com/drive/folders/12a2aQzOdb2Nux4K94p81OJ4bS5g3JiCz?usp=sharing)  
 - TD3-PPO log files can be found [here](https://drive.google.com/drive/folders/1US8Ik3_SpV-b1M9sYrgWQl4bJmd1psCw?usp=sharing) 
 
-<a href="https://drive.google.com/drive/folders/14PAuod0_vA0IVl-7ryvYDzJW-YZ3Vvx4?usp=sharing">Link to the videos obtained</a>
+<a href="https://drive.google.com/drive/folders/14PAuod0_vA0IVl-7ryvYDzJW-YZ3Vvx4?usp=sharing">Link to the video results</a>
